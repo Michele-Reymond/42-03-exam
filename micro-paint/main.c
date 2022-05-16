@@ -6,7 +6,7 @@
 /*   By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 13:29:58 by mreymond          #+#    #+#             */
-/*   Updated: 2022/05/16 15:26:38 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/05/16 17:53:05 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,11 @@ int	main(int argc, char **argv)
 	int		i;
 	int 	j;
 	char	type;
-	float	x;
-	float	y;
-	float	rayon;
+	float	r_width;
+	float	r_height;
 	char	fill;
+	float	point1[2];
+	float	point2[2];
 
 	i = 0;
 	if (check_args(argc))
@@ -59,18 +60,20 @@ int	main(int argc, char **argv)
 		canvas[i][width] = '\0';
 		i++;
 	}
-	while((scan = fscanf(file, "%c %f %f %f %c\n", &type, &x, &y, &rayon, &fill)) == 5)
+	while((scan = fscanf(file, "%c %f %f %f %f %c\n", &type, &point1[0], &point1[1], &r_width, &r_height, &fill)) == 6)
 	{
-		if (type == 'c')
+		if (type == 'r')
 		{
 			i = 0;
 			j = 0;
+			point2[0] = point1[0] + r_width;
+			point2[1] = point1[1] + r_height;
 			while (i < height)
 			{
 				while (j < width)
 				{
-					if (sqrtf(((x - j) * (x - j)) + ((y - i) * (y - i))) <= rayon)
-						if (sqrtf(((x - j) * (x - j)) + ((y - i) * (y - i))) > rayon - 1)
+					if (point1[0] <= i && i <= point2[0])
+						if (point1[1] <= j && j <= point2[1])
 							canvas[i][j] = fill;
 					j++;
 				}
@@ -78,16 +81,19 @@ int	main(int argc, char **argv)
 				i++;
 			}
 		}
-		else if (type == 'C')
+		else if (type == 'R')
 		{
 			i = 0;
 			j = 0;
+			point2[0] = point1[0] + r_width;
+			point2[1] = point1[1] + r_height;
 			while (i < height)
 			{
 				while (j < width)
 				{
-					if (sqrtf(((x - j) * (x - j)) + ((y - i) * (y - i))) <= rayon)
-						canvas[i][j] = fill;
+					if (point1[0] <= i && i <= point2[0])
+						if (point1[1] <= j && j <= point2[1])
+							canvas[i][j] = fill;
 					j++;
 				}
 				j = 0;
