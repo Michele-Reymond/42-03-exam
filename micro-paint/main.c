@@ -6,7 +6,7 @@
 /*   By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 13:29:58 by mreymond          #+#    #+#             */
-/*   Updated: 2022/05/16 17:53:05 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/05/17 12:22:11 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ int	main(int argc, char **argv)
 			{
 				while (j < width)
 				{
-					if (point1[0] <= i && i <= point2[0])
-						if (point1[1] <= j && j <= point2[1])
+					if (point1[0] <= i && i <= point2[0] && point1[1] <= j && j <= point2[1])
+						if (!(point1[0] + 1 <= i && i <= point2[0] - 1 && point1[1] + 1 <= j && j <= point2[1] - 1))
 							canvas[i][j] = fill;
 					j++;
 				}
