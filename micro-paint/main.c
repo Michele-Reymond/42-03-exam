@@ -22,6 +22,7 @@ int	check_args(int argc)
 	return (0);
 }
 
+
 int	main(int argc, char **argv)
 {
 	FILE	*file;
