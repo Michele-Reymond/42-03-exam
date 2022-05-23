@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   mini_paint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 13:29:58 by mreymond          #+#    #+#             */
-/*   Updated: 2022/05/16 15:26:38 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/05/23 16:01:52 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "mini_paint.h"
 
 int	check_args(int argc)
 {
@@ -51,7 +51,10 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	if (width <= 0 || height <= 0 || width > 300 || height > 300)
+	{
+		write(1, "Error: Operation file corrupted\n", 32);
 		return (1);
+	}
 	char	canvas[height][width];
 	while (i < height)
 	{
@@ -61,7 +64,7 @@ int	main(int argc, char **argv)
 	}
 	while((scan = fscanf(file, "%c %f %f %f %c\n", &type, &x, &y, &rayon, &fill)) == 5)
 	{
-		if (type == 'c')
+		if (type == 'c' && rayon > 0)
 		{
 			i = 0;
 			j = 0;
@@ -78,7 +81,7 @@ int	main(int argc, char **argv)
 				i++;
 			}
 		}
-		else if (type == 'C')
+		else if (type == 'C' && rayon > 0)
 		{
 			i = 0;
 			j = 0;
@@ -95,10 +98,16 @@ int	main(int argc, char **argv)
 			}
 		}
 		else
+		{
+			write(1, "Error: Operation file corrupted\n", 32);
 			return (1);
+		}
 	}
 	if (scan != -1)
+	{
+		write(1, "Error: Operation file corrupted\n", 32);
 		return (1);
+	}
 	i = 0;
 	j = 0;
 	while (i < height)

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   micro_paint.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 13:29:58 by mreymond          #+#    #+#             */
-/*   Updated: 2022/05/17 19:52:58 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/05/23 16:02:09 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "micro_paint.h"
 
 int	check_args(int argc)
 {
@@ -53,7 +53,10 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	if (width <= 0 || height <= 0 || width > 300 || height > 300)
+	{
+		write(1, "Error: Operation file corrupted\n", 32);
 		return (1);
+	}
 	char	canvas[height][width];
 	while (i < height)
 	{
@@ -63,7 +66,7 @@ int	main(int argc, char **argv)
 	}
 	while((scan = fscanf(file, "%c %f %f %f %f %c\n", &type, &point1[0], &point1[1], &r_width, &r_height, &fill)) == 6)
 	{
-		if (type == 'r')
+		if (type == 'r' && r_width > 0 && r_height > 0)
 		{
 			i = 0;
 			j = 0;
@@ -73,8 +76,8 @@ int	main(int argc, char **argv)
 			{
 				while (j < width)
 				{
-					if (point1[0] <= i && i <= point2[0] && point1[1] <= j && j <= point2[1])
-						if (!(point1[0] + 1 <= i && i <= point2[0] - 1 && point1[1] + 1 <= j && j <= point2[1] - 1))
+					if (point1[1] <= i && i <= point2[1] && point1[0] <= j && j <= point2[0])
+						if (!(point1[1] + 1 <= i && i <= point2[1] - 1 && point1[0] + 1 <= j && j <= point2[0] - 1))
 							canvas[i][j] = fill;
 					j++;
 				}
@@ -82,7 +85,7 @@ int	main(int argc, char **argv)
 				i++;
 			}
 		}
-		else if (type == 'R')
+		else if (type == 'R' && r_width > 0 && r_height > 0)
 		{
 			i = 0;
 			j = 0;
@@ -92,8 +95,7 @@ int	main(int argc, char **argv)
 			{
 				while (j < width)
 				{
-					if (point1[0] <= i && i <= point2[0])
-						if (point1[1] <= j && j <= point2[1])
+					if (point1[01] <= i && i <= point2[1] && point1[0] <= j && j <= point2[0])
 							canvas[i][j] = fill;
 					j++;
 				}
@@ -102,10 +104,16 @@ int	main(int argc, char **argv)
 			}
 		}
 		else
+		{
+			write(1, "Error: Operation file corrupted\n", 32);
 			return (1);
+		}
 	}
 	if (scan != -1)
+	{
+		write(1, "Error: Operation file corrupted\n", 32);
 		return (1);
+	}
 	i = 0;
 	j = 0;
 	while (i < height)
