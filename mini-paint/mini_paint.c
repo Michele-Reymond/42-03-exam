@@ -6,21 +6,11 @@
 /*   By: mreymond <mreymond@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 13:29:58 by mreymond          #+#    #+#             */
-/*   Updated: 2022/05/23 16:01:52 by mreymond         ###   ########.fr       */
+/*   Updated: 2022/05/23 16:58:43 by mreymond         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini_paint.h"
-
-int	check_args(int argc)
-{
-	if (argc != 2)
-	{
-		write(1, "Error: argument\n", 16);
-		return (1);
-	}
-	return (0);
-}
 
 int	main(int argc, char **argv)
 {
@@ -38,8 +28,11 @@ int	main(int argc, char **argv)
 	char	fill;
 
 	i = 0;
-	if (check_args(argc))
+	if (argc != 2)
+	{
+		write(1, "Error: argument\n", 16);
 		return (1);
+	}
 	if (!(file = fopen(argv[1], "r")))
 	{
 		write(1, "Error: Operation file corrupted\n", 32);
